@@ -1,0 +1,114 @@
+[
+  {
+    "id": "obsidian",
+    "name": "Obsidian",
+    "type": "rock",
+    "category": "high-value",
+    "properties": {
+      "value_multiplier": 3,
+      "hardness": "very high",
+      "brittle": true,
+      "strength": "low"
+    },
+    "decomposition": {
+      "produces": []
+    },
+    "description": "A volcanic glass, extremely sharp and valuable, but very brittle."
+  },
+  {
+    "id": "marble",
+    "name": "Marble",
+    "type": "rock",
+    "category": "mid-value (flux)",
+    "properties": {
+      "value_multiplier": 2,
+      "hardness": "medium",
+      "brittle": true,
+      "strength": "medium"
+    },
+    "decomposition": {
+      "produces": []
+    },
+    "description": "A classic flux stone, essential for making high-quality glass and ceramics."
+  },
+  {
+    "id": "hematite",
+    "name": "Hematite",
+    "type": "ore",
+    "category": "common",
+    "properties": {
+      "value_multiplier": 1,
+      "hardness": "medium",
+      "brittle": false,
+      "strength": "medium"
+    },
+    "decomposition": {
+      "produces": ["Iron Bar"]
+    },
+    "description": "The most common source of iron. Smelt it in a furnace to get iron bars."
+  },
+  {
+    "id": "cassiterite",
+    "name": "Cassiterite",
+    "type": "ore",
+    "category": "common",
+    "properties": {
+      "value_multiplier": 1,
+      "hardness": "medium",
+      "brittle": false,
+      "strength": "medium"
+    },
+    "decomposition": {
+      "produces": ["Tin Bar"]
+    },
+    "description": "The primary ore for tin. Essential for creating bronze when mixed with copper."
+  },
+  {
+    "id": "malachite",
+    "name": "Malachite",
+    "type": "ore",
+    "category": "common",
+    "properties": {
+      "value_multiplier": 1,
+      "hardness": "medium",
+      "brittle": false,
+      "strength": "medium"
+    },
+    "decomposition": {
+      "produces": ["Copper Bar"]
+    },
+    "description": "A vivid green ore that yields copper bars upon smelting."
+  },
+  {
+    "id": "native_gold",
+    "name": "Native Gold",
+    "type": "ore",
+    "category": "high-value",
+    "properties": {
+      "value_multiplier": 10,
+      "hardness": "low",
+      "brittle": false,
+      "strength": "low"
+    },
+    "decomposition": {
+      "produces": ["Gold Bar"]
+    },
+    "description": "Pure gold found in nature. Extremely valuable and soft."
+  },
+  {
+    "id": "native_silver",
+    "name": "Native Silver",
+    "type": "ore",
+    "category": "high-value",
+    "properties": {
+      "value_multiplier": 7,
+      "hardness": "low",
+      "brittle": false,
+      "strength": "low"
+    },
+    "decomposition": {
+      "produces": ["Silver Bar"]
+    },
+    "description": "Native silver, used for luxury items and high-end circuitry/engravings."
+  }
+]

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DF Wiki Landing Mockup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #2C2C2C;
+            --surface-color: #3D3D3D;
+            --accent-color: #D4AF37;
+            --text-main: #E0E0E0;
+            --text-muted: #A0A0A0;
+            --text-dark: #121212;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a1a1a;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Android Device Frame */
+        .device-frame {
+            width: 360px;
+            height: 740px;
+            background-color: var(--bg-color);
+            border: 12px solid #000;
+            border-radius: 36px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* StatusBar Simulation */
+        .status-bar {
+            height: 24px;
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 12px;
+            box-sizing: border-box;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* App Content */
+        .app-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            text-align: center;
+            gap: 32px;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif; /* More "dwarfy" / fantasy feel */
+            color: var(--accent-color);
+            font-size: 32px;
+            margin: 0 0 16px 0;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            color: var(--text-main);
+            font-size: 18px;
+            line-height: 1.5;
+            max-width: 280px;
+            margin-bottom: 20px;
+        }
+
+        .about-card {
+            background-color: var(--surface-color);
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .card-title {
+            color: white;
+            font-weight: 600;
+            font-size: 20px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .card-body {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .credits {
+            color: var(--text-main);
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .roadmap {
+            color: #666;
+            font-size: 12px;
+            max-width: 240px;
+            margin-bottom: 24px;
+        }
+
+        .btn-enter {
+            background-color: var(--accent-color);
+            color: var(--text-dark);
+            border: none;
+            border-radius: 28px;
+            width: 70%;
+            height: 56px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-enter:hover {
+            background-color: #c5a02e;
+            transform: scale(1.02);
+        }
+
+        .btn-enter:active {
+            transform: scale(0.98);
+        }
+
+        /* Animation for entry */
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="device-frame">
+        <div class="status-bar">
+            <span>12:45 • 🔋 85%</span>
+        </div>
+
+        <div class="app-content fade-in">
+            <div>
+                <h1>DF Rock & Ore Wiki</h1>
+                <div class="subtitle">La guía definitiva de geología para el maestro excavador.</div>
+            </div>
+
+            <div class="about-card">
+                <span class="card-title">Sobre el Proyecto</span>
+                <div class="card-body">
+                    Esta aplicación ha sido diseñada para asistir a los jugadores de Dwarf Fortress en la identificación de materiales, optimizando la minería y la industria.
+                </div>
+                <span class="credits">
+                    Desarrollado por:<br>
+                    <strong>Sebastián Matías Contreras Pizarro</strong>
+                </span>
+            </div>
+
+            <div class="roadmap">
+                Próximamente: Guías de arquitectura, tablas de valor de gemas y optimización de industria.
+            </div>
+
+            <button class="btn-enter" onclick="alert('Navegando a la Wiki...')">
+                ENTRAR A LA WIKI
+            </button>
+        </div>
+    </div>
+
+</body>
+</html>
