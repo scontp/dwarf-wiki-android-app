@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -28,18 +29,43 @@ fun CatalogScreen(
     val allMaterials = remember { repository.getMaterials() }
     var searchQuery by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf<String?>(null) }
+    var selectedHardness by remember { mutableStateOf<String?>(null) }
+    var selectedValue by remember { mutableStateOf<String?>(null) }
 
     val categories = remember {
         allMaterials.map { it.category }.distinct().sorted()
     }
 
-    val filteredMaterials = remember(allMaterials, searchQuery, selectedCategory) {
-        allMaterials.filter { material ->
+    val hardnessLevels = listOf("Baja", "Media", "Alta")
+    val valueLevels = listOf("Bajo", "Medio", "Alto")
+
+    val filteredMaterials = remember(allMaterials, searchQuery, selectedCategory, selectedHardness, selectedValue) {
+        allMaterials.filter {
+            material ->
             val matchesSearch = searchQuery.isBlank() ||
                     material.name.contains(searchQuery, ignoreCase = true) ||
-                    material.type.contains(searchQuery, ignoreCase = true)
+                    material.type.contains(searchQuery, ignoreCase = true) ||
+                    material.description.contains(searchQuery, ignoreCase = true)
+
             val matchesCategory = selectedCategory == null || material.category == selectedCategory
-            matchesSearch && matchesCategory
+
+            val matchesHardness = selectedHardness == null ||
+                    when (selectedHardness) {
+                        "Baja" -> material.properties.hardness.equals("Soft", ignoreCase = true)
+                        "Media" -> material.properties.hardness.equals("Medium", ignoreCase = true) || material.properties.hardness.equals("Hard", ignoreCase = true)
+                        "Alta" -> material.properties.hardness.equals("Very Hard", ignoreCase = true)
+                        else -> false
+                    }
+
+            val matchesValue = selectedValue == null ||
+                    when (selectedValue) {
+                        "Bajo" -> material.properties.value_multiplier < 50
+                        "Medio" -> material.properties.value_multiplier >= 50 && material.properties.value_multiplier < 200
+                        "Alto" -> material.properties.value_multiplier >= 200
+                        else -> false
+                    }
+
+            matchesSearch && matchesCategory && matchesHardness && matchesValue
         }
     }
 
@@ -48,7 +74,6 @@ fun CatalogScreen(
             .fillMaxSize()
             .background(Color(0xFF2C2C2C))
     ) {
-        // Top bar
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -72,11 +97,9 @@ fun CatalogScreen(
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.weight(1f))
-            // Placeholder for symmetry
             Spacer(modifier = Modifier.width(72.dp))
         }
 
-        // Search bar
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
@@ -95,7 +118,6 @@ fun CatalogScreen(
             shape = RoundedCornerShape(12.dp)
         )
 
-        // Category filter chips
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
@@ -104,8 +126,12 @@ fun CatalogScreen(
         ) {
             item {
                 FilterChip(
-                    selected = selectedCategory == null,
-                    onClick = { selectedCategory = null },
+                    selected = selectedCategory == null && selectedHardness == null && selectedValue == null,
+                    onClick = {
+                        selectedCategory = null
+                        selectedHardness = null
+                        selectedValue = null
+                    },
                     label = { Text("Todos", color = Color.White, fontSize = 12.sp) },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = Color(0xFFD4AF37).copy(alpha = 0.3f),
@@ -113,11 +139,45 @@ fun CatalogScreen(
                     )
                 )
             }
-            items(categories) { category ->
+            items(categories) {
                 FilterChip(
                     selected = selectedCategory == category,
-                    onClick = { selectedCategory = if (selectedCategory == category) null else category },
+                    onClick = {
+                        selectedCategory = if (selectedCategory == category) null else category
+                        selectedHardness = null
+                        selectedValue = null
+                    },
                     label = { Text(category, color = Color.White, fontSize = 12.sp) },
+                    colors = FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = Color(0xFFD4AF37).copy(alpha = 0.3f),
+                        containerColor = Color(0xFF3D3D3D)
+                    )
+                )
+            }
+            items(hardnessLevels) {
+                FilterChip(
+                    selected = selectedHardness == hardness,
+                    onClick = {
+                        selectedHardness = if (selectedHardness == hardness) null else hardness
+                        selectedCategory = null
+                        selectedValue = null
+                    },
+                    label = { Text(hardness, color = Color.White, fontSize = 12.sp) },
+                    colors = FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = Color(0xFFD4AF37).copy(alpha = 0.3f),
+                        containerColor = Color(0xFF3D3D3D)
+                    )
+                )
+            }
+            items(valueLevels) {
+                FilterChip(
+                    selected = selectedValue == value,
+                    onClick = {
+                        selectedValue = if (selectedValue == value) null else value
+                        selectedCategory = null
+                        selectedHardness = null
+                    },
+                    label = { Text(value, color = Color.White, fontSize = 12.sp) },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = Color(0xFFD4AF37).copy(alpha = 0.3f),
                         containerColor = Color(0xFF3D3D3D)
@@ -126,7 +186,6 @@ fun CatalogScreen(
             }
         }
 
-        // Results count
         Text(
             text = "${filteredMaterials.size} materiales encontrados",
             color = Color.Gray,
@@ -134,7 +193,6 @@ fun CatalogScreen(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
         )
 
-        // Material list
         if (filteredMaterials.isEmpty()) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -153,8 +211,8 @@ fun CatalogScreen(
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(filteredMaterials, key = { it.id }) { material ->
-                    MaterialCard(material = material, onClick = { onMaterialClick(material) })
+                items(filteredMaterials, key = { it.id }) {
+                    MaterialCard(material = it, onClick = { onMaterialClick(it) })
                 }
             }
         }
@@ -178,7 +236,6 @@ private fun MaterialCard(material: Material, onClick: () -> Unit) {
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Icon placeholder
             Surface(
                 modifier = Modifier.size(48.dp),
                 shape = RoundedCornerShape(8.dp),
