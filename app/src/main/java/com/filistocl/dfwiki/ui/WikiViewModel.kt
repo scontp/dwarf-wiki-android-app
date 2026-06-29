@@ -1,5 +1,7 @@
 package com.filistocl.dfwiki.ui
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.filistocl.dfwiki.data.WikiRepository
 import com.filistocl.dfwiki.model.Material
