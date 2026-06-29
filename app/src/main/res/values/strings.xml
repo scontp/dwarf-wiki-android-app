@@ -1,3 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">DF Wiki</string>
+    <string name="search_hint">Buscar material...</string>
+    <string name="no_results_found">Sin resultados 😔
+Intenta con otro término de búsqueda.</string>
+    <string name="cd_back_button">Botón Volver</string>
+    <string name="cd_material_icon">Icono del material</string>
+    <string name="cd_material_card">Tarjeta del material</string>
+    <string name="filter_all">Todos</string>
 </resources>
