@@ -16,31 +16,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.filistocl.dfwiki.data.WikiRepository
 import com.filistocl.dfwiki.model.Material
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CatalogScreen(
-    repository: WikiRepository,
+    materials: List<Material>,
     onMaterialClick: (Material) -> Unit,
     onBack: () -> Unit
 ) {
-    val allMaterials = remember { repository.getMaterials() }
     var searchQuery by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf<String?>(null) }
     var selectedHardness by remember { mutableStateOf<String?>(null) }
     var selectedValue by remember { mutableStateOf<String?>(null) }
 
     val categories = remember {
-        allMaterials.map { it.category }.distinct().sorted()
+        materials.map { it.category }.distinct().sorted()
     }
 
     val hardnessLevels = listOf("Baja", "Media", "Alta")
     val valueLevels = listOf("Bajo", "Medio", "Alto")
 
-    val filteredMaterials = remember(allMaterials, searchQuery, selectedCategory, selectedHardness, selectedValue) {
-        allMaterials.filter {
+    val filteredMaterials = remember(materials, searchQuery, selectedCategory, selectedHardness, selectedValue) {
+        materials.filter {
             material ->
             val matchesSearch = searchQuery.isBlank() ||
                     material.name.contains(searchQuery, ignoreCase = true) ||
@@ -139,7 +137,7 @@ fun CatalogScreen(
                     )
                 )
             }
-            items(categories) {
+            items(categories) { category ->
                 FilterChip(
                     selected = selectedCategory == category,
                     onClick = {
@@ -154,7 +152,7 @@ fun CatalogScreen(
                     )
                 )
             }
-            items(hardnessLevels) {
+            items(hardnessLevels) { hardness ->
                 FilterChip(
                     selected = selectedHardness == hardness,
                     onClick = {
@@ -169,7 +167,7 @@ fun CatalogScreen(
                     )
                 )
             }
-            items(valueLevels) {
+            items(valueLevels) { value ->
                 FilterChip(
                     selected = selectedValue == value,
                     onClick = {
