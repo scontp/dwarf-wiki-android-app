@@ -1,20 +1,19 @@
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 android {
     namespace 'com.filistocl.dfwiki'
     compileSdk 34
-    
+
     defaultConfig {
         applicationId 'com.filistocl.dfwiki'
         minSdk 24
         targetSdk 34
         versionCode 1
         versionName "1.0"
-        
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -23,9 +22,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        debug {
-            minifyEnabled false
-        }
     }
 
     compileOptions {
@@ -33,8 +29,8 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = '17'
+    kotlin {
+        jvmToolchain(17)
     }
 
     buildFeatures {
@@ -58,6 +54,6 @@ dependencies {
     implementation 'androidx.compose.navigation:navigation-compose:2.7.5'
     implementation 'androidx.compose.foundation:foundation:1.5.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0'
-    
+
     debugImplementation 'androidx.compose.ui:ui-tooling:1.5.4'
 }
